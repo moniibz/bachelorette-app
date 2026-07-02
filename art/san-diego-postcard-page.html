@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Greetings from San Diego</title>
+  <style>
+    :root {
+      --paper: #f6efe3;
+      --paper-2: #fff8ec;
+      --ink: #171512;
+      --muted: rgba(23, 21, 18, 0.58);
+      --line: rgba(23, 21, 18, 0.32);
+      --shadow: rgba(0, 0, 0, 0.30);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background: #111;
+    }
+
+    .sd-postcard-page {
+      min-height: 100vh;
+      padding: clamp(32px, 6vw, 76px) 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(10, 14, 12, 0.52), rgba(15, 18, 16, 0.22) 45%, rgba(8, 12, 13, 0.48)),
+        linear-gradient(180deg, rgba(255, 209, 133, 0.18), rgba(10, 14, 12, 0.30)),
+        url("./IMG_8784.JPG") center / cover no-repeat;
+    }
+
+    .sd-postcard-page::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, transparent 0 45%, rgba(0,0,0,.22) 100%);
+      pointer-events: none;
+    }
+
+    .postcard-wrap {
+      width: min(1180px, 94vw);
+      position: relative;
+      z-index: 1;
+      transform: rotate(-1.3deg);
+      filter: drop-shadow(0 36px 45px rgba(0, 0, 0, .34));
+    }
+
+    .postcard {
+      position: relative;
+      background: var(--paper);
+      min-height: 650px;
+      padding: clamp(26px, 4vw, 48px);
+      border: 1px solid rgba(45, 38, 30, .28);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), 0 24px 80px var(--shadow);
+      overflow: visible;
+    }
+
+    .paper-grain::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(rgba(40, 32, 24, .10) .7px, transparent .7px),
+        radial-gradient(rgba(40, 32, 24, .07) .8px, transparent .8px);
+      background-position: 0 0, 5px 7px;
+      background-size: 9px 9px, 13px 13px;
+      opacity: .34;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+    }
+
+    .postcard-header {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .postcard-title {
+      text-align: center;
+      margin: 10px 0 0;
+      font-weight: 400;
+      letter-spacing: .16em;
+      font-size: clamp(25px, 3.3vw, 46px);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .postmark {
+      width: 192px;
+      height: 95px;
+      position: relative;
+      color: rgba(23, 21, 18, .72);
+      flex: 0 0 auto;
+    }
+
+    .postmark .stamp-box {
+      position: absolute;
+      right: 0;
+      top: 14px;
+      width: 72px;
+      height: 54px;
+      border: 1px solid rgba(23, 21, 18, .42);
+    }
+
+    .postmark .circle {
+      position: absolute;
+      left: 35px;
+      top: 0;
+      width: 94px;
+      height: 94px;
+      border: 1.5px solid rgba(23, 21, 18, .55);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      line-height: 1.35;
+    }
+
+    .postmark .circle span { display: block; }
+    .postmark .palm { font-size: 22px; line-height: 1; margin: 2px 0; }
+
+    .postmark .waves {
+      position: absolute;
+      left: 0;
+      top: 34px;
+      width: 105px;
+      height: 36px;
+      background:
+        repeating-linear-gradient(180deg, transparent 0 7px, rgba(23,21,18,.48) 8px 9px, transparent 10px 12px);
+      mask-image: radial-gradient(ellipse 42px 10px at 9px 50%, transparent 0 11px, #000 12px 100%);
+      -webkit-mask-image: radial-gradient(ellipse 42px 10px at 9px 50%, transparent 0 11px, #000 12px 100%);
+      transform: skewX(-9deg);
+      opacity: .8;
+    }
+
+    .postcard-body {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(250px, .84fr) minmax(300px, 1.12fr) minmax(245px, .88fr);
+      gap: clamp(22px, 3.2vw, 44px);
+      padding-top: 34px;
+      align-items: stretch;
+    }
+
+    .flight-card {
+      position: relative;
+      width: min(100%, 320px);
+      margin-left: -82px;
+      margin-top: -10px;
+      padding: 31px 27px 26px;
+      background: var(--paper-2);
+      border: 1px solid rgba(45, 38, 30, .18);
+      box-shadow: 0 18px 34px rgba(0,0,0,.18);
+      transform: rotate(-1deg);
+    }
+
+    .tape {
+      position: absolute;
+      top: -16px;
+      left: 96px;
+      width: 94px;
+      height: 32px;
+      background: rgba(208, 190, 154, .48);
+      transform: rotate(-6deg);
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    }
+
+    .flight-title {
+      margin: 0 0 22px;
+      font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive;
+      font-weight: 400;
+      font-size: 31px;
+      letter-spacing: .02em;
+    }
+
+    .plane-small { font-family: Georgia, serif; font-size: 20px; margin-left: 10px; }
+
+    label {
+      display: block;
+      margin: 0 0 14px;
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    input, select {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      border: 1px solid rgba(23, 21, 18, .22);
+      background: rgba(255,255,255,.22);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 14px;
+      padding: 12px 13px;
+      outline: none;
+      border-radius: 0;
+    }
+
+    input:focus, select:focus { border-color: rgba(23,21,18,.65); }
+
+    .track-btn {
+      width: 100%;
+      margin: 2px 0 24px;
+      border: 0;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: Georgia, "Times New Roman", serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: 14px 12px;
+      cursor: pointer;
+      box-shadow: 0 8px 16px rgba(0,0,0,.13);
+    }
+
+    .flight-divider {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+      margin: 3px 0 20px;
+      color: rgba(23,21,18,.72);
+    }
+
+    .flight-divider::before, .flight-divider::after {
+      content: "";
+      height: 1px;
+      border-top: 1px dashed rgba(23,21,18,.45);
+    }
+
+    .arrival-label {
+      margin: 0 0 12px;
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .arrival-box {
+      min-height: 54px;
+      border: 1px solid rgba(23,21,18,.18);
+      background: rgba(255,255,255,.22);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      font-size: 15px;
+      color: rgba(23,21,18,.78);
+    }
+
+    .message-panel {
+      border-left: 1px solid var(--line);
+      padding-left: clamp(25px, 3vw, 42px);
+      min-height: 270px;
+    }
+
+    .handwritten {
+      max-width: 360px;
+      margin: 4px 0 0;
+      font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive;
+      font-size: clamp(28px, 3vw, 41px);
+      line-height: 1.35;
+      letter-spacing: .01em;
+      transform: rotate(-1.5deg);
+    }
+
+    .address-panel {
+      border-left: 1px solid var(--line);
+      padding-left: clamp(24px, 3vw, 40px);
+      padding-top: 92px;
+    }
+
+    .address-title {
+      margin: 0 0 10px;
+      font-size: 16px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+
+    .address-lines span {
+      display: block;
+      height: 40px;
+      border-bottom: 1px solid rgba(23,21,18,.36);
+    }
+
+    .stamp-row {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 22px;
+      margin-left: 220px;
+    }
+
+    .stamp-card {
+      position: relative;
+      min-height: 245px;
+      background: var(--paper-2);
+      border: 1px solid rgba(45, 38, 30, .22);
+      overflow: hidden;
+      box-shadow: 0 12px 24px rgba(0,0,0,.10);
+      clip-path: polygon(
+        0 0, 100% 0, 100% 100%, 0 100%
+      );
+    }
+
+    .stamp-card::before,
+    .stamp-card::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 13px;
+      background: radial-gradient(circle at 7px 7px, transparent 0 6px, var(--paper-2) 6.5px) repeat-x;
+      background-size: 18px 13px;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .stamp-card::before { top: -7px; }
+    .stamp-card::after { bottom: -7px; transform: rotate(180deg); }
+
+    .map-card {
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(rgba(246,239,227,.25), rgba(246,239,227,.25)),
+        radial-gradient(circle at 18% 68%, rgba(92, 150, 159, .30) 0 17%, transparent 18%),
+        radial-gradient(circle at 20% 65%, rgba(92, 150, 159, .28) 0 28%, transparent 29%),
+        linear-gradient(34deg, transparent 0 31%, rgba(167, 129, 80, .32) 31% 32%, transparent 32% 100%),
+        linear-gradient(80deg, transparent 0 48%, rgba(167, 129, 80, .25) 48% 49%, transparent 49% 100%),
+        linear-gradient(140deg, transparent 0 55%, rgba(167, 129, 80, .20) 55% 56%, transparent 56% 100%),
+        #e5dcc9;
+    }
+
+    .map-card .map-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 96px;
+      text-align: center;
+      letter-spacing: .16em;
+      font-size: 21px;
+      text-transform: uppercase;
+    }
+
+    .map-label, .photo-label {
+      position: absolute;
+      bottom: 23px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 23px;
+      background: rgba(246,239,227,.86);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .map-pin {
+      position: absolute;
+      top: 98px;
+      left: 48%;
+      width: 28px;
+      height: 28px;
+      border-left: 2px solid rgba(23,21,18,.5);
+      transform: rotate(18deg);
+    }
+
+    .map-pin::after { content: "✦"; position: absolute; top: -16px; left: -8px; font-size: 19px; }
+
+    .photo-card {
+      display: grid;
+      place-items: center;
+      background: #f3ebdd;
+    }
+
+    .camera-icon {
+      width: 86px;
+      height: 52px;
+      border: 1.5px dashed rgba(23,21,18,.45);
+      position: relative;
+      margin-top: -20px;
+    }
+
+    .camera-icon::before {
+      content: "";
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      border: 1.5px dashed rgba(23,21,18,.45);
+      border-radius: 50%;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .camera-icon::after {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 13px;
+      border: 1.5px dashed rgba(23,21,18,.45);
+      border-bottom: 0;
+      top: -13px;
+      left: 17px;
+      border-radius: 8px 8px 0 0;
+    }
+
+
+
+    .all-arrivals {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(23,21,18,.22);
+    }
+
+    .all-arrivals-title {
+      margin: 0 0 9px;
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .all-arrivals-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .all-arrival-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      border: 1px solid rgba(23,21,18,.16);
+      background: rgba(255,255,255,.18);
+      padding: 8px 9px;
+      font-size: 13px;
+    }
+
+    .all-arrival-row span:first-child { font-weight: 700; }
+    .all-arrival-row span:nth-child(2) { text-align: right; color: rgba(23,21,18,.72); }
+    .all-arrival-row small {
+      grid-column: 1 / -1;
+      font-family: Arial, sans-serif;
+      font-size: 9px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(23,21,18,.55);
+    }
+
+
+
+    .google-map-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      filter: saturate(.72) contrast(.92) sepia(.18);
+      z-index: 1;
+    }
+
+    .map-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(246,239,227,.22);
+      pointer-events: none;
+      z-index: 2;
+      mix-blend-mode: multiply;
+    }
+
+    .map-card .map-title, .map-card .map-label, .map-card .map-pin { z-index: 3; }
+
+    @media (max-width: 1040px) {
+      .postcard-wrap { transform: none; }
+      .flight-card { margin-left: 0; width: 100%; }
+      .stamp-row { margin-left: 0; }
+      .postcard-body { grid-template-columns: 1fr; }
+      .message-panel, .address-panel { border-left: 0; padding-left: 0; }
+      .address-panel { padding-top: 10px; }
+      .postcard-header { grid-template-columns: 1fr; }
+      .postmark { justify-self: center; }
+    }
+
+    @media (max-width: 720px) {
+      .sd-postcard-page { padding: 18px; align-items: flex-start; }
+      .postcard { padding: 24px 18px; }
+      .postcard-title { text-align: left; }
+      .stamp-row { grid-template-columns: 1fr; }
+      .flight-title { font-size: 27px; }
+      .handwritten { font-size: 27px; }
+    }
+
+
+    /* Polished sizing + original postcard-detail pass */
+    .sd-postcard-page {
+      padding: clamp(44px, 6vw, 92px) 18px;
+      background:
+        linear-gradient(90deg, rgba(8, 12, 11, 0.58), rgba(18, 17, 14, 0.16) 48%, rgba(8, 12, 13, 0.52)),
+        linear-gradient(180deg, rgba(255, 209, 133, 0.10), rgba(10, 14, 12, 0.22)),
+        url("./IMG_8784.JPG") center / cover no-repeat;
+    }
+
+    .postcard-wrap {
+      width: min(1040px, 82vw);
+      transform: rotate(-1.6deg);
+      filter: drop-shadow(0 32px 40px rgba(0, 0, 0, .34));
+    }
+
+    .postcard {
+      min-height: 570px;
+      padding: clamp(24px, 3.2vw, 38px);
+      border: 1px solid rgba(45, 38, 30, .34);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.35),
+        inset 0 -1px 0 rgba(23,21,18,.14),
+        0 22px 72px rgba(0,0,0,.30);
+    }
+
+    .postcard-title {
+      margin-top: 6px;
+      font-size: clamp(31px, 3.8vw, 56px);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .flight-title,
+    .handwritten {
+      font-family: "Snell Roundhand", "Apple Chancery", "Brush Script MT", "Bradley Hand", cursive;
+      font-weight: 400;
+    }
+
+    .flight-title { font-size: 34px; }
+
+    .handwritten {
+      max-width: 355px;
+      font-size: clamp(30px, 3.15vw, 43px);
+      line-height: 1.28;
+      letter-spacing: 0;
+    }
+
+    .postcard-body {
+      grid-template-columns: minmax(230px, .78fr) minmax(285px, 1.12fr) minmax(230px, .82fr);
+      gap: clamp(18px, 2.7vw, 36px);
+      padding-top: 28px;
+    }
+
+    .flight-card {
+      width: min(100%, 295px);
+      margin-left: -86px;
+      padding: 29px 24px 23px;
+    }
+
+    .address-panel { padding-top: 74px; }
+
+    .stamp-row {
+      margin-top: 14px;
+      margin-left: 195px;
+      gap: 26px;
+      position: relative;
+    }
+
+    .stamp-row::before {
+      content: "";
+      position: absolute;
+      left: -12px;
+      right: -12px;
+      top: -18px;
+      height: 18px;
+      background: radial-gradient(circle at 9px 10px, rgba(0,0,0,0) 0 6px, var(--paper) 6.5px) repeat-x;
+      background-size: 18px 18px;
+      filter: drop-shadow(0 -1px 0 rgba(23,21,18,.18));
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .stamp-card {
+      min-height: 218px;
+      overflow: visible;
+      border: 0;
+      box-shadow: 0 14px 26px rgba(0,0,0,.12);
+    }
+
+    .stamp-card::before {
+      inset: -9px;
+      height: auto;
+      left: -9px;
+      right: -9px;
+      top: -9px;
+      bottom: -9px;
+      background:
+        radial-gradient(circle at 9px 9px, transparent 0 6px, var(--paper-2) 6.5px) top left / 18px 18px repeat-x,
+        radial-gradient(circle at 9px 9px, transparent 0 6px, var(--paper-2) 6.5px) bottom left / 18px 18px repeat-x,
+        radial-gradient(circle at 9px 9px, transparent 0 6px, var(--paper-2) 6.5px) top left / 18px 18px repeat-y,
+        radial-gradient(circle at 9px 9px, transparent 0 6px, var(--paper-2) 6.5px) top right / 18px 18px repeat-y,
+        var(--paper-2);
+      z-index: -1;
+      filter: drop-shadow(0 12px 18px rgba(0,0,0,.12));
+    }
+
+    .stamp-card::after { display: none; }
+
+    .map-card, .photo-card { overflow: hidden; }
+    .map-card .map-title { top: 84px; font-size: 19px; }
+    .map-label, .photo-label { bottom: 18px; }
+    .google-map-frame { min-height: 168px; }
+
+    @media (max-width: 1040px) {
+      .postcard-wrap { width: min(900px, 90vw); }
+      .postcard { min-height: auto; }
+      .flight-card { margin-left: 0; width: 100%; }
+      .stamp-row { margin-left: 0; }
+    }
+
+    @media (max-width: 720px) {
+      .sd-postcard-page { padding: 24px 14px; }
+      .postcard-wrap { width: 100%; }
+      .postcard-title { white-space: normal; text-align: center; font-size: 32px; }
+      .handwritten { font-size: 28px; }
+    }
+    /* Revision pass: shorter postcard, independent flight tracker and floating stamps. */
+    .sd-postcard-page{padding:clamp(32px,5vw,68px) 18px;align-items:center;overflow:hidden}
+    .postcard-wrap{width:min(1030px,82vw);transform:rotate(-1.4deg)}
+    .postcard{min-height:0;padding:clamp(22px,2.8vw,34px) clamp(24px,3.4vw,42px) clamp(26px,3vw,36px);overflow:visible}
+    .postcard-header{padding-bottom:16px}.postcard-title{font-size:clamp(30px,3.5vw,50px)}
+    .postcard-body{display:grid;grid-template-columns:minmax(320px,1fr) minmax(245px,.78fr);gap:clamp(28px,4vw,54px);padding-top:28px;margin-left:245px;align-items:start;min-height:245px}
+    .flight-card{position:absolute;z-index:8;left:-70px;top:132px;width:295px;margin:0;max-height:min(74vh,620px);overflow:auto;overscroll-behavior:contain}
+    .message-panel{grid-column:1;border-left:1px solid var(--line);padding-left:clamp(25px,3vw,42px);min-height:0}.handwritten{font-size:clamp(29px,2.85vw,38px);line-height:1.25;margin-top:0}.address-panel{grid-column:2;border-left:1px solid var(--line);padding-left:clamp(22px,2.6vw,34px);padding-top:80px}
+    .all-arrivals-list{max-height:185px;overflow:auto;padding-right:2px}.all-arrival-row{background:rgba(255,255,255,.28)}
+    .floating-stamps{position:absolute;z-index:7;left:245px;right:18px;top:calc(100% - 14px);margin:0;display:grid;grid-template-columns:1fr 1fr;gap:28px;transform:rotate(1.1deg)}
+    .floating-stamps::before{display:none}.floating-stamps .stamp-card{min-height:205px;transform:rotate(-.8deg)}.floating-stamps .stamp-card:nth-child(2){transform:rotate(1.4deg)}
+    .stamp-card::before{filter:drop-shadow(0 12px 18px rgba(0,0,0,.18))}.google-map-frame{min-height:205px}.map-card .map-title{top:72px}.map-label,.photo-label{bottom:14px}
+    @media(max-width:1040px){.postcard-wrap{width:min(900px,92vw);transform:none}.postcard-body{margin-left:0;grid-template-columns:1fr}.flight-card{position:relative;left:auto;top:auto;width:100%;max-height:none;margin:0 0 20px}.message-panel,.address-panel{grid-column:auto;border-left:0;padding-left:0}.address-panel{padding-top:14px}.floating-stamps{position:relative;left:auto;right:auto;top:auto;margin-top:22px;grid-template-columns:1fr 1fr;transform:none}}
+    @media(max-width:720px){.sd-postcard-page{overflow:auto;align-items:flex-start}.postcard-wrap{width:100%}.floating-stamps{grid-template-columns:1fr}.postcard-title{font-size:30px}.handwritten{font-size:27px}}
+    /* Postcard layout mode: drag individual postcard pieces when ?layout=1 is present. */
+    .layout-mode .layout-piece{outline:2px dashed rgba(210,85,43,.82);outline-offset:4px;cursor:grab;translate:var(--layout-x,0) var(--layout-y,0)}
+    .layout-mode .layout-piece:active{cursor:grabbing}.postcard-layout-panel{position:fixed;right:14px;bottom:14px;z-index:9999;width:min(330px,calc(100vw - 28px));background:rgba(246,239,227,.96);border:1px solid rgba(23,21,18,.24);box-shadow:0 18px 55px rgba(0,0,0,.22);padding:14px;color:var(--ink);font-family:Georgia,serif}.postcard-layout-panel h3{margin:0 0 8px;font-size:24px}.postcard-layout-panel p{margin:0 0 10px;font-size:12px;line-height:1.35;color:var(--muted)}.postcard-layout-panel textarea{width:100%;height:112px;border:1px solid rgba(23,21,18,.22);background:rgba(255,255,255,.72);font:11px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;padding:8px}.postcard-layout-panel button{border:1px solid var(--ink);background:var(--ink);color:var(--paper);padding:8px 10px;margin:3px;font:700 10px Arial;text-transform:uppercase;letter-spacing:.12em}
+
+  </style>
+</head>
+<body>
+  <main class="sd-postcard-page">
+    <section class="postcard-wrap" aria-label="San Diego postcard page">
+      <div class="postcard paper-grain">
+        <header class="postcard-header">
+          <h1 class="postcard-title">San Diego babyyy</h1>
+          <div class="postmark" aria-hidden="true">
+            <div class="waves"></div>
+            <div class="circle"><span>San Diego</span><span class="palm">♣</span><span>California</span></div>
+            <div class="stamp-box"></div>
+          </div>
+        </header>
+
+        <div class="postcard-body">
+          <aside class="flight-card paper-grain">
+            <div class="tape" aria-hidden="true"></div>
+            <h2 class="flight-title">Flight Tracker <span class="plane-small">✈</span></h2>
+
+            <label for="guestName">Name
+              <input id="guestName" type="text" placeholder="Enter your name" />
+            </label>
+
+            <label for="airline">Airline
+              <select id="airline">
+                <option value="">Select airline</option>
+                <option>American Airlines</option>
+                <option>Delta</option>
+                <option>Southwest</option>
+                <option>United</option>
+                <option>Alaska</option>
+                <option>JetBlue</option>
+                <option>Other</option>
+              </select>
+            </label>
+
+            <label for="flightNumber">Flight Number
+              <input id="flightNumber" type="text" placeholder="e.g. DL1234" />
+            </label>
+
+            <button class="track-btn" type="button" id="trackFlight">Track Flight</button>
+
+            <div class="flight-divider" aria-hidden="true">✈</div>
+            <p class="arrival-label">Arrival Time</p>
+            <div class="arrival-box" id="arrivalBox"><span>✈</span><span>Arrival time will appear here</span></div>
+            <div class="all-arrivals">
+              <p class="all-arrivals-title">Everyone's Arrivals</p>
+              <div class="all-arrivals-list" id="allArrivalsList" aria-live="polite"></div>
+            </div>
+          </aside>
+
+          <section class="message-panel">
+            <p class="handwritten">
+              Greetings from San Diego,<br />
+              baby.<br />
+              Can’t wait to celebrate<br />
+              a weekend with the ladies<br />
+              I love in the seaside<br />
+              summer heat.<br />
+              Love, Moniibz ♡
+            </p>
+          </section>
+
+          <section class="address-panel">
+            <h2 class="address-title">Airbnb Address</h2>
+            <div class="address-lines" aria-label="Blank Airbnb address lines">
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="stamp-row floating-stamps">
+          <div class="stamp-card map-card paper-grain">
+            <!-- Later: replace this embed with a Google Maps API map and add pins for every weekend location. -->
+            <iframe class="google-map-frame" title="Interactive San Diego map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=San%20Diego%2C%20CA&z=11&output=embed"></iframe>
+            <div class="map-pin" aria-hidden="true"></div>
+            <div class="map-title">San Diego</div>
+            <div class="map-label">San Diego Map</div>
+          </div>
+
+          <div class="stamp-card photo-card paper-grain">
+            <div class="camera-icon" aria-hidden="true"></div>
+            <div class="photo-label">Airbnb Photo</div>
+          </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const button = document.getElementById('trackFlight');
+    const arrivalBox = document.getElementById('arrivalBox');
+    const arrivalsList = document.getElementById('allArrivalsList');
+    const arrivalsKey = 'monicaPostcardArrivals';
+    let arrivals = JSON.parse(localStorage.getItem(arrivalsKey) || '[]');
+
+    function saveArrivals(){ localStorage.setItem(arrivalsKey, JSON.stringify(arrivals)); }
+    function renderArrivals(){
+      arrivalsList.innerHTML = arrivals.length
+        ? arrivals.map((item) => `<div class="all-arrival-row"><span>${item.name}</span><span>${item.arrival}</span><small>${item.airline} ${item.flight}</small></div>`).join('')
+        : '<div class="all-arrival-row"><span>No flights yet</span><span>TBD</span><small>Add yours above</small></div>';
+    }
+
+    button.addEventListener('click', () => {
+      const name = document.getElementById('guestName').value.trim() || 'Guest';
+      const airlineValue = document.getElementById('airline').value;
+      const airline = airlineValue || 'Airline TBD';
+      const flight = document.getElementById('flightNumber').value.trim().toUpperCase() || 'Flight TBD';
+
+      arrivalBox.innerHTML = '<span>✈</span><span>Searching flight details…</span>';
+      setTimeout(() => {
+        const arrival = 'Arrival pending';
+        arrivalBox.innerHTML = '<span>✈</span><span>Arrival time will appear here once flight tracking is connected.</span>';
+        const existingIndex = arrivals.findIndex((item) => item.name.toLowerCase() === name.toLowerCase());
+        const entry = { name, airline, flight, arrival };
+        if (existingIndex >= 0) arrivals[existingIndex] = entry;
+        else arrivals = [entry, ...arrivals].slice(0, 7);
+        saveArrivals();
+        renderArrivals();
+      }, 900);
+    });
+
+    renderArrivals();
+  </script>
+</body>
+</html>
